@@ -1,6 +1,12 @@
 #include <iostream>
+#include <stdlib.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "GLsimplified.h"
+#include <vector>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 // Vertex Shader Source code
 const char* vertexShaderSource = "#version 330 core\n"
@@ -64,16 +70,28 @@ int main()
 	glDeleteShader(fragmentShader);
 
 
+	GLfloat vertices[] = {
+	-0.5f, -0.5f, 0.0f, // Vertex 0: Bottom-left
+	-0.5f,  0.5f, 0.0f, // Vertex 1: Top-left
+	 0.5f, -0.5f, 0.0f, // Vertex 2: Bottom-right
+	 0.5f,  0.5f, 0.0f  // Vertex 3: Top-right
+	};
 
+	GLint indices[] = {
+		0, 1, 2, // First triangle
+		1, 3, 2  // Second triangle
+	};
+	
 
-	// Vertices coordinates
-	GLfloat verticies[] =
+	// Vertices coordinates ___OUTDATED___
+	/*
+	GLfloat vertices[] =
 	{
 		-0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f, // Lower left corner
 		0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f, // Lower right corner
 		0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f, // Upper corner
-		-0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f, // Inner left
-		0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f, // Inner right
+		-0.5f * 0.5f, 0.5f * float(sqrt(3)) / 6, 0.0f, // Inner left
+		0.5f * 0.5f, 0.5f * float(sqrt(3)) / 6, 0.0f, // Inner right
 		0.0f, -0.5f * float(sqrt(3)) / 3, 0.0f // Inner down
 	};
 
@@ -83,6 +101,7 @@ int main()
 		4, 2, 3, // Upper triangle
 		1, 4, 5 // Lower right triangle
 	};
+	*/
 
 	// Create reference containers for the Vartex Array Object and the Vertex Buffer Object
 	GLuint VAO, VBO, EBO;
@@ -98,11 +117,11 @@ int main()
 	// Bind the VBO specifying it's a GL_ARRAY_BUFFER
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	// Introduce the vertices into the VBO
-	glBufferData(GL_ARRAY_BUFFER, sizeof(verticies), verticies, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-	
+
 	// Configure the Vertex Attribute so that OpenGL knows how to read the VBO
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	// Enable the Vertex Attribute so that OpenGL knows to use it
@@ -113,11 +132,33 @@ int main()
 	glBindVertexArray(0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-
-
 	// Main while loop
 	while (!glfwWindowShouldClose(window))
 	{
+		// INITIALIZED VALS
+		int windowWidth, windowHeight; glfwGetWindowSize(window, &windowWidth, &windowHeight);
+		double mouseX, mouseY; glfwGetCursorPos(window, &mouseX, &mouseY);
+
+		double mouseNormX = mapToNormalizedCoordX(mouseX, windowWidth);
+		double mouseNormY = mapToNormalizedCoordY(mouseY, windowHeight);
+
+		bool isPressed = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
+
+		// BUTTONS INITIALIZATION
+		Button button(-0.5f, -0.5f, 1.0f, 1.0f, window);
+
+		// FUNCTIONALITY
+		if (getCursor::clicked(GLFW_MOUSE_BUTTON_LEFT)) {
+			system("cls");
+			std::cout << "MB1 CLICKED!" << std::endl;
+		}
+		if (button.clicked()) {
+			system("cls");
+			std::cout <<"IT WORKSKSSSSSSS!IOIGI`!!11!!1I1IGI!!iI1YG" << std::endl;
+		}
+
+		// GRAPHICS
+
 		// Specify the color of the background
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
 		// Clean the back buffer and assign the new color to it
