@@ -1,0 +1,4 @@
+﻿  Main.cpp
+C:\Users\rasmu\Desktop\CFox_Studios\Main.cpp(142,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\rasmu\Desktop\CFox_Studios\Main.cpp(143,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  CFox Studios.vcxproj -> C:\Users\rasmu\Desktop\CFox_Studios\x64\Debug\CFox Studios.exe
